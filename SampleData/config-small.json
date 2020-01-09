@@ -1,0 +1,32 @@
+{
+	"inputType": "vcf",
+	"dumpCSV": true,
+	"shuffleSnps": true,
+	"outputPrefix": "SampleData/output-small",
+	"inputPrefix": "SampleData/input-small",
+	"pvalueThr": 1e-3,
+	"numTree": 500,
+	"numLoop": 1,
+	"variables": [
+		{
+			"numVar": 10,
+			"numSnpsInVar": 1
+		},
+		{
+			"numVar": 5,
+			"numSnpsInVar": 2
+		},
+		{
+			"numVar": 5,
+			"numSnpsInVar": 3
+		},
+		{
+			"numVar": 2,
+			"numSnpsInVar": 4
+		},
+		{
+			"numVar": 2,
+			"numSnpsInVar": 5
+		}
+	]
+}

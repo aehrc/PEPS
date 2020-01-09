@@ -1,0 +1,32 @@
+{
+	"inputType": "csv",
+	"dumpCSV": false,
+	"shuffleSnps": true,
+	"outputPrefix": "SampleData/output-large",
+	"inputPrefix": "SampleData/input-large",
+	"pvalueThr": 1e-3,
+	"numTree": 5000,
+	"numLoop": 1,
+	"variables": [
+		{
+			"numVar": 10,
+			"numSnpsInVar": 1
+		},
+		{
+			"numVar": 10,
+			"numSnpsInVar": 2
+		},
+		{
+			"numVar": 10,
+			"numSnpsInVar": 3
+		},
+		{
+			"numVar": 2,
+			"numSnpsInVar": 4
+		},
+		{
+			"numVar": 2,
+			"numSnpsInVar": 5
+		}
+	]
+}
