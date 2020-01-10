@@ -1,1 +1,1 @@
-python3 PEPS.py SampleData/config-py.json
+python3 PEPS.py SampleData/config-small.json
