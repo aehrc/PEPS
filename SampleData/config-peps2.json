@@ -1,10 +1,10 @@
 {
-  "inputType": "vcf",
-  "dumpCSV": true,
-  "shuffleSnps": true,
-  "outputPrefix": "SampleData/output-small",
-  "inputPrefix": "SampleData/input-small",
-  "pvalueThr": 1e-3,
+  "inputType": "csv",
+  "dumpCSV": false,
+  "shuffleSnps": false,
+  "outputPrefix": "SampleData/PEPS2",
+  "inputPrefix": "SampleData/input-large",
+  "pvalueThr": 1e-1,
   "numTree": 500,
   "numLoop": 1,
   "variables": [
@@ -13,19 +13,19 @@
       "numSnpsInVar": 1
     },
     {
-      "numVar": 5,
+      "numVar": 0,
       "numSnpsInVar": 2
     },
     {
-      "numVar": 5,
+      "numVar": 0,
       "numSnpsInVar": 3
     },
     {
-      "numVar": 2,
+      "numVar": 0,
       "numSnpsInVar": 4
     },
     {
-      "numVar": 2,
+      "numVar": 0,
       "numSnpsInVar": 5
     }
   ]
