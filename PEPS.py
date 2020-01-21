@@ -9,13 +9,16 @@
 
 # In[ ]:
 
+import sys
+configFilePath=sys.argv[1]
+
 
 # # Initialisation
 
 # In[ ]:
 
 
-import sys
+
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
@@ -33,7 +36,6 @@ from scipy import stats
 import sklearn
 
 TA = [1, .5, 1e-1, 1e-2, 1e-3, 1e-8, 1e-20]
-configFilePath = sys.argv[1]
 
 
 # # Read the config file
@@ -75,9 +77,9 @@ for v in config['variables']:
     v['numSNPs'] = v['numVar'] * v['numSnpsInVar']
     numVariables += v['numVar']
     numSnpsNeeded += v['numSNPs']
-    if v['numSnpsInVar'] > maxOrder:
+    if v['numSnpsInVar']>maxOrder:
         maxOrder = v['numSnpsInVar']
-
+    
 config['numVariables'] = numVariables
 config['numSnpsNeeded'] = numSnpsNeeded
 config['maxOrder'] = maxOrder
@@ -91,7 +93,7 @@ config['maxOrder'] = maxOrder
 print("========== Configuration >>>")
 pprint(config)
 print("============================")
-with open(outputPrefix+'.config.json', 'w') as outfile:
+with open(outputPrefix+'.config.json','w') as outfile:
     json.dump(config, outfile)
 
 
@@ -101,16 +103,15 @@ with open(outputPrefix+'.config.json', 'w') as outfile:
 # In[ ]:
 
 
-if inputType == 'vcf':
+if inputType=='vcf':
     vcfdf = VcfDataFrame(path=vcfInputPath)
     df = vcfdf.df
-    df['SNP'] = df['#CHROM'].astype(str) + ':' + df['POS'].astype(
-        str) + ':' + df['REF'].astype(str) + ':' + df['ALT'].astype(str)
+    df['SNP'] = df['#CHROM'].astype(str) + ':' + df['POS'].astype(str) + ':' + df['REF'].astype(str) + ':' + df['ALT'].astype(str)
     df = df.set_index('SNP')
-    snpData = df.iloc[:, 9:].replace(['0/0', '0/1', '1/1'], [0, 1, 2])
+    snpData = df.iloc[:,9:].replace(['0/0','0/1','1/1'], [0,1,2])
     if dumpCSV:
         snpData.to_csv(csvInputPath)
-elif inputType == 'csv':
+elif inputType=='csv':
     snpData = pd.read_csv(csvInputPath)
     snpData = snpData.set_index('SNP')
 else:
@@ -121,7 +122,7 @@ else:
 # In[ ]:
 
 
-snpData.iloc[:5, :5]
+snpData.iloc[:5,:5]
 
 
 # # There should be enough SNPs in the input file to create all variables
@@ -161,17 +162,17 @@ snpData = snpData.T
 # In[ ]:
 
 
-df = snpData.replace([0, 1, 2], ['R', 'H', 'A'])
+df = snpData.replace([0,1,2],['R','H','A'])
 numSampels = df.shape[0]
 numSNPs = df.shape[1]
-print("number of sample", numSampels)
-print("number of snp", numSNPs)
+print("number of sample",numSampels)
+print("number of snp",numSNPs)
 
 
 # In[ ]:
 
 
-df.iloc[:5, :5]
+df.iloc[:5,:5]
 
 
 # # Form variables from SNPs
@@ -183,9 +184,9 @@ df.iloc[:5, :5]
 # In[ ]:
 
 
-colNames = list()  # to store variable names
-for o, v in enumerate(config['variables']):
-    for i in range(0, v['numVar']):
+colNames = list() # to store variable names
+for o,v in enumerate(config['variables']):
+    for i in range(0,v['numVar']):
         colNames.append('O'+str(o+1)+'V'+str(i+1))
 
 
@@ -207,13 +208,13 @@ varData = pd.DataFrame(index=rowNames, columns=colNames)
 
 
 idx = 0
-for o, v in enumerate(config['variables']):
-    for i in range(0, v['numVar']):
+for o,v in enumerate(config['variables']):
+    for i in range(0,v['numVar']):
         name = 'O'+str(o+1)+'V'+str(i+1)
-        varData.at['order', name] = str(o+1)
-        for k in range(0, v['numSnpsInVar']):
+        varData.at['order',name] = str(o+1)
+        for k in range(0,v['numSnpsInVar']):
             snp = 'snp_'+str(k+1)
-            varData.at[snp, name] = df.columns[idx]
+            varData.at[snp,name]=df.columns[idx]
             idx += 1
 varData = varData.fillna('---')
 
@@ -227,7 +228,7 @@ varData.to_csv(outputPrefix+'.varData.csv')
 # In[ ]:
 
 
-varData.iloc[:6, -5:]
+varData.iloc[:6,-5:]
 
 
 # # Form Variable Genotype and write it to "outputPrefix.varGT.csv"
@@ -237,19 +238,19 @@ varData.iloc[:6, -5:]
 # In[ ]:
 
 
-varGT = df.iloc[:, -1:0].copy()
+varGT = df.iloc[:,-1:0].copy()
 
 
 # In[ ]:
 
 
-for o, v in enumerate(config['variables']):
-    for i in range(0, v['numVar']):
+for o,v in enumerate(config['variables']):
+    for i in range(0,v['numVar']):
         name = 'O'+str(o+1)+'V'+str(i+1)
         varGT[name] = ''
-        for k in range(0, v['numSnpsInVar']):
+        for k in range(0,v['numSnpsInVar']):
             snp = 'snp_'+str(k+1)
-            varGT[name] = varGT[name] + df[varData.loc[snp, name]]
+            varGT[name] = varGT[name] + df[varData.loc[snp,name]]
 
 
 # In[ ]:
@@ -261,7 +262,7 @@ varGT.to_csv(outputPrefix+'.varGT.csv')
 # In[ ]:
 
 
-varGT.iloc[:5, -5:]
+varGT.iloc[:5,-5:]
 
 
 # # This function compute Risks based on given phenotype
@@ -271,23 +272,22 @@ varGT.iloc[:5, -5:]
 
 def FindRisks(df):
     varNames = df.columns[0:-1]
-
-    case, ctrl = df[df['lbl'] == 1], df[df['lbl'] == 0]
-
+    
+    case, ctrl = df[df['lbl']==1], df[df['lbl']==0]
+    
     GS = dict()
+    
+    for i,v in enumerate(varNames):
 
-    for i, v in enumerate(varNames):
+        caseC=case[v].value_counts()
+        ctrlC=ctrl[v].value_counts()
 
-        caseC = case[v].value_counts()
-        ctrlC = ctrl[v].value_counts()
-
-        count = caseC.to_frame().join(ctrlC.to_frame(), lsuffix='_case',
-                                      rsuffix='_ctrl', how='outer').fillna(0)
+        count = caseC.to_frame().join(ctrlC.to_frame(),lsuffix='_case', rsuffix='_ctrl',how='outer').fillna(0)
         #count = count.iloc[:,:-1]
         count.columns = ['case', 'ctrl']
-        count['p'] = (count['case']+1)/(count['ctrl']+1)
+        count['p'] = (count['case'])/(count['ctrl']+count['case'])
         #count['p'] /= count['p'].sum()
-
+        
         GS[v] = count
     return GS
 
@@ -297,19 +297,19 @@ def FindRisks(df):
 # In[ ]:
 
 
-def Predict(df, GS):
-    df['prob'] = 0.0
+def Predict(df,GS):
+    df['prob'] = 0.0;
     for sample in df.index:
-        prob = 0.0
-        for var in df.drop(['lbl', 'prob'], axis=1).columns:
+        prob = 1.0
+        for var in df.drop(['lbl','prob'], axis=1).columns:
             G = GS[var]
-            g = df.loc[sample, var]
+            g = df.loc[sample,var]
             if g in G.index:
-                prob += G.loc[g, 'p']
-        df.at[sample, 'prob'] = prob
+                prob *= G.loc[g,'p']
+        df.at[sample,'prob'] = prob
 
     mid = df['prob'].mean()
-    df['lbl'] = df['prob'].apply(lambda x: 1 if(x > mid) else 0)
+    df['lbl'] = df['prob'].apply(lambda x: 1 if(x>mid) else 0)
 
 
 # # Assign random phenotype to samples
@@ -335,16 +335,15 @@ varGT[['lbl']].head(5)
 features = varGT.columns[:-1]
 corrDict = dict()
 for v in features:
-    corrDict[v] = stats.chi2_contingency(
-        pd.crosstab(varGT['lbl'], varGT[v]).values)[1]
+    corrDict[v] = stats.chi2_contingency(pd.crosstab(varGT['lbl'],varGT[v]).values)[1]
 a = np.asarray(list(corrDict.values()))
 b = - np.log10(a)
 plt.plot(np.sort(b))
 nsat = list()
 for t in TA:
-    nsat.append([t, np.where(a < t)[0].shape[0]])
+    nsat.append([t, np.where(a<t)[0].shape[0]])
 x = pd.DataFrame(nsat)
-x.columns = ['p-value', 'number of SNPs exceed the p-value']
+x.columns =['p-value', 'number of SNPs exceed the p-value']
 x.set_index('p-value')
 
 
@@ -356,7 +355,7 @@ x.set_index('p-value')
 for i in range(numLoop):
     print('loop', i+1)
     Risks = FindRisks(varGT)
-    Predict(varGT, Risks)
+    Predict(varGT,Risks)
     varGT = varGT.drop(['prob'], axis=1)
 print("Done")
 
@@ -367,7 +366,7 @@ print("Done")
 
 
 phen = varGT[['lbl']].copy()
-phen.index.name = 'sample'
+phen.index.name ='sample'
 phen.to_csv(outputPrefix+'.pheno.csv')
 
 
@@ -385,16 +384,15 @@ phen.head()
 features = varGT.columns[:-1]
 corrDict = dict()
 for v in features:
-    corrDict[v] = stats.chi2_contingency(
-        pd.crosstab(varGT['lbl'], varGT[v]).values)[1]
+    corrDict[v] = stats.chi2_contingency(pd.crosstab(varGT['lbl'],varGT[v]).values)[1]
 a = np.asarray(list(corrDict.values()))
 b = - np.log10(a)
 plt.plot(np.sort(b))
 nsat = list()
 for t in TA:
-    nsat.append([t, np.where(a < t)[0].shape[0]])
+    nsat.append([t, np.where(a<t)[0].shape[0]])
 x = pd.DataFrame(nsat)
-x.columns = ['p-value', 'number of SNPs exceed the p-value']
+x.columns =['p-value', 'number of SNPs exceed the p-value']
 x.set_index('p-value')
 
 
@@ -405,7 +403,7 @@ x.set_index('p-value')
 
 variables = list()
 for v in corrDict:
-    if corrDict[v] < pvalueThr:
+    if corrDict[v]<pvalueThr:
         variables.append(v)
 
 varDataTruth = varData[variables]
@@ -415,14 +413,14 @@ varDataTruth.to_csv(outputPrefix+'.varDataTruth.csv')
 # In[ ]:
 
 
-print("Number of Variables: ", varData.shape[1])
-print("Number of Truth Variables: ", varDataTruth.shape[1])
+print("Number of Variables: ",varData.shape[1])
+print("Number of Truth Variables: ",varDataTruth.shape[1])
 
 
 # In[ ]:
 
 
-varDataTruth.iloc[:6, -5:]
+varDataTruth.iloc[:6,-5:]
 
 
 # # Filter SNPs included in All and Truth Variables
@@ -431,30 +429,26 @@ varDataTruth.iloc[:6, -5:]
 # In[ ]:
 
 
-snps = np.unique(varDataTruth.replace(
-    np.nan, '', regex=True).drop('order').values.ravel())[1:]
+snps = np.unique(varDataTruth.replace(np.nan, '', regex=True).drop('order').values.ravel())[1:]
 snpDataTruth = snpData.loc[:, snpData.columns.isin(snps)]
 
-snps2 = np.unique(varData.replace(
-    np.nan, '', regex=True).drop('order').values.ravel())[1:]
+snps2 = np.unique(varData.replace(np.nan, '', regex=True).drop('order').values.ravel())[1:]
 snpDataVar = snpData.loc[:, snpData.columns.isin(snps2)]
 
-pd.DataFrame(snps).rename(columns={0: 'v'}).to_csv(
-    outputPrefix+'.TruthSNP.csv', index=False)
+pd.DataFrame(snps).rename(columns={0:'v'}).to_csv(outputPrefix+'.TruthSNP.csv',index=False)
 
 
 # In[ ]:
 
 
-print("Number of SNPs used to form Variables: ", snpDataVar.shape[1])
-print("Number of Truth SNPs (SNPs in Truth Variables): ",
-      snpDataTruth.shape[1])
+print("Number of SNPs used to form Variables: ",snpDataVar.shape[1])
+print("Number of Truth SNPs (SNPs in Truth Variables): ",snpDataTruth.shape[1])
 
 
 # In[ ]:
 
 
-snpDataTruth.iloc[:5, -5:]
+snpDataTruth.iloc[:5,-5:]
 
 
 # # Add Phenotype to SNP Data
@@ -476,15 +470,15 @@ snpData['lbl'] = varGT['lbl']
 def RF_AUC(dfx, nTree):
     df = dfx.copy()
     features = df.columns[:-1]
-
+    
     df['is_train'] = np.random.uniform(0, 1, len(df)) <= .75
-    train, test = df[df['is_train'] == True], df[df['is_train'] == False]
+    train, test = df[df['is_train']==True], df[df['is_train']==False]
     clf = RandomForestClassifier(n_jobs=2, n_estimators=nTree, random_state=0)
     clf.fit(train[features], train['lbl'])
-    # clf.predict(test[features])
+    #clf.predict(test[features])
     prob = clf.predict_proba(test[features])
     y_true = test['lbl']
-    y_scores = prob[:, 1]
+    y_scores = prob[:,1]
     return clf, roc_auc_score(y_true, y_scores)
 
 
@@ -496,15 +490,15 @@ def RF_AUC(dfx, nTree):
 
 
 clfTruth, AucTruth = RF_AUC(snpDataTruth, nTree=numTree)
-clfVar,   AucVar = RF_AUC(snpDataVar, nTree=numTree)
-clf,      Auc = RF_AUC(snpData, nTree=numTree)
+clfVar,   AucVar   = RF_AUC(snpDataVar  , nTree=numTree)
+clf,      Auc      = RF_AUC(snpData     , nTree=numTree)
 
 
 # In[ ]:
 
 
-print("AUC Truth SNPs            : ", AucTruth)
-print("AUC All SNPs in Variables : ", AucVar)
+print("AUC Truth SNPs            : ", AucTruth )
+print("AUC All SNPs in Variables : ", AucVar )
 print("AUC All SNPs in input file: ", Auc)
 
 
@@ -512,7 +506,12 @@ print("AUC All SNPs in input file: ", Auc)
 
 
 pd.DataFrame(np.sort(clfTruth.feature_importances_)).plot(title="Truth SNP")
-pd.DataFrame(np.sort(clfVar.feature_importances_)
-             ).plot(title="All SNP in Variables")
-pd.DataFrame(np.sort(clf.feature_importances_)).plot(
-    title="All SNP in input file")
+pd.DataFrame(np.sort(clfVar.feature_importances_)).plot(title="All SNP in Variables")
+pd.DataFrame(np.sort(clf.feature_importances_)).plot(title="All SNP in input file")
+
+
+# In[ ]:
+
+
+
+
