@@ -9,7 +9,7 @@
     "numVariables": 24,
     "outputPrefix": "SampleData/PEPS2_54snps",
     "pvalueThr": 1.0,
-    "seed": 0,
+    "seed": 1,
     "shuffleSnps": false,
     "variables": [
         {
