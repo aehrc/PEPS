@@ -1,0 +1,41 @@
+{
+    "dumpCSV": false,
+    "inputPrefix": "1000Genomes/all-snps",
+    "inputType": "csv",
+    "maxOrder": 5,
+    "numLoop": 1,
+    "numSnpsNeeded": 15,
+    "numTree": 1000,
+    "numVariables": 5,
+    "outputPrefix": "SampleData/PEPS2_15snps",
+    "pvalueThr": 1.0,
+    "seed": 0,
+    "shuffleSnps": false,
+    "variables": [
+        {
+            "numSNPs": 1,
+            "numSnpsInVar": 1,
+            "numVar": 1
+        },
+        {
+            "numSNPs": 2,
+            "numSnpsInVar": 2,
+            "numVar": 1
+        },
+        {
+            "numSNPs": 3,
+            "numSnpsInVar": 3,
+            "numVar": 1
+        },
+        {
+            "numSNPs": 4,
+            "numSnpsInVar": 4,
+            "numVar": 1
+        },
+        {
+            "numSNPs": 5,
+            "numSnpsInVar": 5,
+            "numVar": 1
+        }
+    ]
+}
