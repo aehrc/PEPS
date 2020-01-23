@@ -48,7 +48,7 @@ This file is in JSON format and includes all the parameter for the simulation
 
 ## Sample Data
 
-The [SampleData](SampleData) directory includes examples of input, output and config file as well as processed PEPS notebook in HTML format.
+The [SampleData](SampleData) directory includes examples of input, output and config files. The [HTML_Notebook](HTML_Notebook) contains processed PEPS notebooks in HTML format.
 
 **Input:**
 
@@ -64,7 +64,7 @@ Output files related to both config files above.
 
 **PEPS processed notebook**
 
-[PEPS-small.html](SampleData/PEPS-small.html) and [PEPS-large.html](SampleData/PEPS-large.html) are examples that show how PEPS notebook look likes after processing small and large input.
+[PEPS-small.html](HTML_Notebook/PEPS-small.html) and [PEPS-large.html](HTML_Notebook/PEPS-large.html) are examples that show how PEPS notebook look likes after processing small and large input.
 
 ## VCF to CSV conversion
 
@@ -133,9 +133,9 @@ PEPS2 uses the "seed" parameter in the config file to ensure that a phenotype ca
 reproduced. If the "shuffleSnps" parameter is true the seed is ignored and the
 phenotype will be random.
 
-An example config file: [config-peps2.json](SampleData/config-peps.json)
+An example config file: [config-peps2.json](SampleData/config-peps2.json)
 
-An example processed notebook: [PEPS2.html](SampleData/PEPS2.html)
+An example processed notebook: [PEPS2.html](HTML_Notebook/PEPS2.html)
 
 PEPS2 is available in notebook format only.
 
