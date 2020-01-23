@@ -83,6 +83,9 @@ $ python3 PEPS.py SampleData/config-large.json
 [PEPS2.ipynb](PEPS2.ipynb) uses a different way to simulate phenotype. Instead of assigning random phenotype and computing Risk genotypes based on random phenotype, PEPS2 computes the Risk genotype using mathematics.
 
 PEPS2 requier "seed" parameter in the config file.
+
 An example config file: [config-peps2.json](SampleData/config-peps.json)
+
 An example processed notebook: [PEPS2.html](SampleData/PEPS2.html)
+
 PEPS2 is available in notebook format only.
