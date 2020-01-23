@@ -1,6 +1,6 @@
 ## For PEPS2 see below
 
-# Polygenic Epistatic Phenotype Simulation (PEPS)
+# PEPS: Polygenic Epistatic Phenotype Simulation
 
 **Based on real genotype data.**
 Polygenic Risk Score (PRS) models are proven to find better risk indicators for polygenic diseases. However, these models are limited to the additive effect of individual SNPs. What if a polygenic trait is formed in a more complex way where a superset of individual SNPs along with sets of interactive SNPs (Higher-Order Complex Epistasis Interactions) contribute to the phenotype. PEPS is developed to generate such complex phenotypes. The phenotype is simulated for real genotype data (i.e. 1000 Genomes Project) where all genomic pattern exists in the data (only the phenotype is simulated).
@@ -30,27 +30,6 @@ The feedback loop PEPS used for simulation does not guarantee to associate all v
 
 When using PEPS, the input genotype should not include SNPs that are associated with any population structure. For example, in the case of 1000 Genomes project we observe that if we include SNPs that can be a predictor of ethnicity, the resulting synthetic phenotype mimics the ethnicity of the population. To address this problem, you should exclude all SNPs associated with any population structure from the genotype file given to PEPS. Such SNP should not be a truth SNP for a synthetic phenotype.
 
-## Best Practice to prepare input genotype
-
-**1000-Genome Case Study**
-To reduce from ~80 Million SNPs in 1000 Genomes dataset to a few hundred SNPs used for the simulation we follow the following steps (implemented in a [hail] notebook)
-
-- Download 1000 Genomes dataset and merge chromosome 1 to 22
-- Filter out multi-allelic loci
-- Filter out loci where minor allele frequency is less than 0.2
-- Filter out loci where call rate is less than 1
-- Filter out loci where Hardy-Weinberg p-value is less than 10^-7
-- Filter out loci in Linkage-Disequilibrium with r2 threshold of 0.1
-- Up to here, 131,340 locus left in the dataset
-- Remove SNPs which can be a predictor of the super population (logistic regression p-value is less than 10^-2). See [igsr_samples.tsv](1000Genomes/igsr_samples.tsv)
-- Up to here, 24,979 locus left in the dataset
-- Keep only SNPs
-- Up to here 17,373 SNPs left in the dataset
-- These SNPs are stored in
-- These SNPs are stored in [1000Genomes](1000Genomes)
-  - VCF format: [all-snp.vcf.bgz](1000Genomes/all-snp.vcf.bgz)
-  - CSV format: [all-snp.csv.gz](1000Genomes/all-snp.csv.gz)
-
 ## Config file
 
 This file is in JSON format and includes all the parameter for the simulation
@@ -73,7 +52,7 @@ The [SampleData](SampleData) directory includes examples of input, output and co
 
 **Input:**
 
-There are two input file both of them are a subset of [all-snp.vcf.bgz](1000Genomes/all-snp.vcf.bgz) available in vcf and csv format. The `small` input with ~162 SNPs and the `large` input with 4969 SNPs.
+There are two input file both of them are a subset of 1000Genomes data available in vcf and csv format. The `small` input with ~162 SNPs and the `large` input with 4969 SNPs.
 
 **config:**
 
@@ -101,4 +80,9 @@ $ python3 PEPS.py SampleData/config-large.json
 
 # PEPS2
 
-[PEPS2.ipynb](PEPS2.ipynb) uses a different way to simulate phenotype. Instead of assigning random phenotype and computing Risk genotypes based on random phenotype, PEPS2 compute the Risk genotype using mathematics.
+[PEPS2.ipynb](PEPS2.ipynb) uses a different way to simulate phenotype. Instead of assigning random phenotype and computing Risk genotypes based on random phenotype, PEPS2 computes the Risk genotype using mathematics.
+
+PEPS2 requier "seed" parameter in the config file.
+An example config file: [config-peps2.json](SampleData/config-peps.json)
+An example processed notebook: [PEPS2.html](SampleData/PEPS2.html)
+PEPS2 is available in notebook format only.
