@@ -3,12 +3,10 @@
     "inputPrefix": "SampleData/input-large",
     "inputType": "csv",
     "maxOrder": 5,
-    "numLoop": 1,
     "numSnpsNeeded": 78,
     "numTree": 500,
     "numVariables": 34,
     "outputPrefix": "SampleData/output-peps2",
-    "pvalueThr": 0.001,
     "seed": "13",
     "shuffleSnps": true,
     "variables": [

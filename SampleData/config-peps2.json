@@ -5,9 +5,7 @@
   "shuffleSnps": true,
   "outputPrefix": "SampleData/output-peps2",
   "inputPrefix": "SampleData/input-large",
-  "pvalueThr": 1e-3,
   "numTree": 500,
-  "numLoop": 1,
   "variables": [
     {
       "numVar": 10,
