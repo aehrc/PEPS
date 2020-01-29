@@ -48,7 +48,7 @@ This file is in JSON format and includes all the parameter for the simulation
 
 ## Sample Data
 
-The [SampleData](SampleData) directory includes examples of input, output and config file as well as processed PEPS notebook in HTML format.
+The [SampleData](SampleData) directory includes examples of input, output and config files. The [HTML_Notebook](HTML_Notebook) contains processed PEPS notebooks in HTML format.
 
 **Input:**
 
@@ -64,7 +64,7 @@ Output files related to both config files above.
 
 **PEPS processed notebook**
 
-[PEPS-small.html](SampleData/PEPS-small.html) and [PEPS-large.html](SampleData/PEPS-large.html) are examples that show how PEPS notebook look likes after processing small and large input.
+[PEPS-small.html](HTML_Notebook/PEPS-small.html) and [PEPS-large.html](HTML_Notebook/PEPS-large.html) are examples that show how PEPS notebook look likes after processing small and large input.
 
 ## VCF to CSV conversion
 
@@ -80,12 +80,62 @@ $ python3 PEPS.py SampleData/config-large.json
 
 # PEPS2
 
-[PEPS2.ipynb](PEPS2.ipynb) uses a different way to simulate phenotype. Instead of assigning random phenotype and computing Risk genotypes based on random phenotype, PEPS2 computes the Risk genotype using mathematics.
+[PEPS2.ipynb](PEPS2.ipynb) uses a different method to simulate phenotype.
+Instead of assigning a random phenotype and computing risk genotypes based on
+that random phenotype, PEPS2 uses a probabilistic model to calculate a genotype
+for a set of variables within a population.
 
-PEPS2 requier "seed" parameter in the config file.
+Let the desired frequency of cases be *Q* and, similarly, the
+frequency of controls is *P* = 1-*Q*. If we let the
+*k*<sup>th</sup> variable on average decrease the probability of a sample being a
+control by the fraction *q*<sub>*k*</sub> then for *g* variables we arrive at:
 
-An example config file: [config-peps2.json](SampleData/config-peps.json)
+*Q* = (1-*q*<sub>1</sub>)(1-*q*<sub>2</sub>) ... (1-*q*<sub>*g*</sub>)
 
-An example processed notebook: [PEPS2.html](SampleData/PEPS2.html)
+In the interests of making each variable similar in importance, we set each
+*q*<sub>*k*</sub> equal to the same value *q*, which leaves us with
+*Q* = (1-*q*)<sup>*g*</sup>, and rearrange to find *q* = 1 - *Q*<sup>1/*g*</sup>.
+As *q* is an average over all the values for a variable, it can be expressed as
+
+*q* = *p*<sub>1</sub>*f*<sub>1</sub> + *p*<sub>2</sub>*f*<sub>2</sub> + ... +
+*p*<sub>*n+1*</sub>*f*<sub>*n+1*</sub>
+
+for *n+1* possible values of the variable, where *f<sub>k</sub>* is the
+frequency of the *k*<sup>th</sup> variable. What remains is to choose the
+effect on the phenotype *p*<sub>*k*</sub>
+for each value of the variable. We choose to set the value that is most
+frequent in the population to 0, and set the others such that they all
+contribute an equal amount, i.e. *p*<sub>1</sub>*f*<sub>1</sub> = *p*<sub>2</sub>*f*<sub>2</sub> = ... =
+*p*<sub>*n*</sub>*f*<sub>*n*</sub>. So we have for *p*<sub>*k*</sub>
+
+*q* = *np*<sub>*k*</sub>*f*<sub>*k*</sub>
+
+*p*<sub>*k*</sub> = *q*/(*nf<sub>k</sub>*)
+
+*p*<sub>*k*</sub> = (1-*Q*<sup>1/*g*</sup>)/*nf<sub>k</sub>*
+
+This *p* is the calculated for each value of each variable
+(with a maximum value of 1) and represents the fraction by which the
+probability of a sample with that value being in the control group is reduced.
+
+The probability that a sample *s* is in the control group is then
+
+*Q<sub>s</sub>* = (1-*p<sub>s*1</sub>)(1-*p<sub>s*2</sub>) ... (1-*p*<sub>*sg*</sub>)
+
+where *p*<sub>*sk*</sub> is the *p* associated with the value that sample *s* has for variable *k*.
+
+The cases and controls could then be calculated stochastically, but in the
+interests of minimising noise and maximising the importance of each variable,
+the samples are sorted by increasing *Q<sub>s</sub>* and the first *P* fraction
+are selected as cases.
+
+PEPS2 uses the "seed" parameter in the config file to ensure that a phenotype can be
+reproduced. If the "shuffleSnps" parameter is true the seed is ignored and the
+phenotype will be random.
+
+An example config file: [config-peps2.json](SampleData/config-peps2.json)
+
+An example processed notebook: [PEPS2.html](HTML_Notebook/PEPS2.html)
 
 PEPS2 is available in notebook format only.
+
