@@ -85,57 +85,58 @@ Instead of assigning a random phenotype and computing risk genotypes based on
 that random phenotype, PEPS2 uses a probabilistic model to calculate a genotype
 for a set of variables within a population.
 
-Let the desired frequency of cases be *Q* and, similarly, the
-frequency of controls is *P* = 1-*Q*. If we let the
-*k*<sup>th</sup> variable on average decrease the probability of a sample being a
-control by the fraction *q*<sub>*k*</sub> then for *g* variables we arrive at:
+Let the desired frequency of cases be _Q_ and, similarly, the
+frequency of controls is _P_ = 1-_Q_. If we let the
+_k_<sup>th</sup> variable on average decrease the probability of a sample being a
+control by the fraction _q_<sub>_k_</sub> then for _g_ variables we arrive at:
 
-*Q* = (1-*q*<sub>1</sub>)(1-*q*<sub>2</sub>) ... (1-*q*<sub>*g*</sub>)
+_Q_ = (1-_q_<sub>1</sub>)(1-_q_<sub>2</sub>) ... (1-_q_<sub>_g_</sub>)
 
 In the interests of making each variable similar in importance, we set each
-*q*<sub>*k*</sub> equal to the same value *q*, which leaves us with
-*Q* = (1-*q*)<sup>*g*</sup>, and rearrange to find *q* = 1 - *Q*<sup>1/*g*</sup>.
-As *q* is an average over all the values for a variable, it can be expressed as
+_q_<sub>_k_</sub> equal to the same value _q_, which leaves us with
+_Q_ = (1-_q_)<sup>_g_</sup>, and rearrange to find _q_ = 1 - _Q_<sup>1/_g_</sup>.
+As _q_ is an average over all the values for a variable, it can be expressed as
 
-*q* = *p*<sub>1</sub>*f*<sub>1</sub> + *p*<sub>2</sub>*f*<sub>2</sub> + ... +
-*p*<sub>*n+1*</sub>*f*<sub>*n+1*</sub>
+_q_ = _p_<sub>1</sub>_f_<sub>1</sub> + _p_<sub>2</sub>_f_<sub>2</sub> + ... +
+_p_<sub>_n+1_</sub>_f_<sub>_n+1_</sub>
 
-for *n+1* possible values of the variable, where *f<sub>k</sub>* is the
-frequency of the *k*<sup>th</sup> variable. What remains is to choose the
-effect on the phenotype *p*<sub>*k*</sub>
+for _n+1_ possible values of the variable, where _f<sub>k</sub>_ is the
+frequency of the _k_<sup>th</sup> variable. What remains is to choose the
+effect on the phenotype _p_<sub>_k_</sub>
 for each value of the variable. We choose to set the value that is most
 frequent in the population to 0, and set the others such that they all
-contribute an equal amount, i.e. *p*<sub>1</sub>*f*<sub>1</sub> = *p*<sub>2</sub>*f*<sub>2</sub> = ... =
-*p*<sub>*n*</sub>*f*<sub>*n*</sub>. So we have for *p*<sub>*k*</sub>
+contribute an equal amount, i.e. _p_<sub>1</sub>_f_<sub>1</sub> = _p_<sub>2</sub>_f_<sub>2</sub> = ... =
+_p_<sub>_n_</sub>_f_<sub>_n_</sub>. So we have for _p_<sub>_k_</sub>
 
-*q* = *np*<sub>*k*</sub>*f*<sub>*k*</sub>
+_q_ = _np_<sub>_k_</sub>_f_<sub>_k_</sub>
 
-*p*<sub>*k*</sub> = *q*/(*nf<sub>k</sub>*)
+_p_<sub>_k_</sub> = _q_/(_nf<sub>k</sub>_)
 
-*p*<sub>*k*</sub> = (1-*Q*<sup>1/*g*</sup>)/*nf<sub>k</sub>*
+_p_<sub>_k_</sub> = (1-_Q_<sup>1/_g_</sup>)/_nf<sub>k</sub>_
 
-This *p* is the calculated for each value of each variable
+This _p_ is the calculated for each value of each variable
 (with a maximum value of 1) and represents the fraction by which the
 probability of a sample with that value being in the control group is reduced.
 
-The probability that a sample *s* is in the control group is then
+The probability that a sample _s_ is in the control group is then
 
-*Q<sub>s</sub>* = (1-*p<sub>s*1</sub>)(1-*p<sub>s*2</sub>) ... (1-*p*<sub>*sg*</sub>)
+_Q<sub>s</sub>_ = (1-*p<sub>s*1</sub>)(1-*p<sub>s*2</sub>) ... (1-_p_<sub>_sg_</sub>)
 
-where *p*<sub>*sk*</sub> is the *p* associated with the value that sample *s* has for variable *k*.
+where _p_<sub>_sk_</sub> is the _p_ associated with the value that sample _s_ has for variable _k_.
 
 The cases and controls could then be calculated stochastically, but in the
 interests of minimising noise and maximising the importance of each variable,
-the samples are sorted by increasing *Q<sub>s</sub>* and the first *P* fraction
+the samples are sorted by increasing _Q<sub>s</sub>_ and the first _P_ fraction
 are selected as cases.
 
 PEPS2 uses the "seed" parameter in the config file to ensure that a phenotype can be
 reproduced. If the "shuffleSnps" parameter is true the seed is ignored and the
 phenotype will be random.
 
+PEPS2 does not require "numLoop" and "pvalueThr" parameter in the config file.
+
 An example config file: [config-peps2.json](SampleData/config-peps2.json)
 
 An example processed notebook: [PEPS2.html](HTML_Notebook/PEPS2.html)
 
 PEPS2 is available in notebook format only.
-
