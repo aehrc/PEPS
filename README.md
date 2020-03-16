@@ -140,3 +140,8 @@ An example config file: [config-peps2.json](SampleData/config-peps2.json)
 An example processed notebook: [PEPS2.html](HTML_Notebook/PEPS2.html)
 
 PEPS2 is available in notebook format only.
+
+# PEPS3
+
+PEPS3 is as same as PEPS2 but SNPs included in Epistasis interactions also appear indivudually as well.
+For exampel if O3V5 made of 3 SNP (rs123, rs456, rs789) then each of this SNPs will form a Variable (O3V5S1, O3V5S2, O3V5S3) and independantly affect the phenotype
