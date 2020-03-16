@@ -1,0 +1,39 @@
+{
+    "dumpCSV": false,
+    "inputPrefix": "SampleData/input-large",
+    "inputType": "csv",
+    "maxOrder": 5,
+    "numSnpsNeeded": 54,
+    "numTree": 500,
+    "numVariables": 24,
+    "outputPrefix": "SampleData/output-peps3",
+    "seed": "13",
+    "shuffleSnps": true,
+    "variables": [
+        {
+            "numSNPs": 10,
+            "numSnpsInVar": 1,
+            "numVar": 10
+        },
+        {
+            "numSNPs": 10,
+            "numSnpsInVar": 2,
+            "numVar": 5
+        },
+        {
+            "numSNPs": 12,
+            "numSnpsInVar": 3,
+            "numVar": 4
+        },
+        {
+            "numSNPs": 12,
+            "numSnpsInVar": 4,
+            "numVar": 3
+        },
+        {
+            "numSNPs": 10,
+            "numSnpsInVar": 5,
+            "numVar": 2
+        }
+    ]
+}

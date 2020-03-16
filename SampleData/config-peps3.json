@@ -1,0 +1,31 @@
+{
+  "seed": "13",
+  "inputType": "csv",
+  "dumpCSV": false,
+  "shuffleSnps": true,
+  "outputPrefix": "SampleData/output-peps3",
+  "inputPrefix": "SampleData/input-large",
+  "numTree": 500,
+  "variables": [
+    {
+      "numVar": 10,
+      "numSnpsInVar": 1
+    },
+    {
+      "numVar": 5,
+      "numSnpsInVar": 2
+    },
+    {
+      "numVar": 4,
+      "numSnpsInVar": 3
+    },
+    {
+      "numVar": 3,
+      "numSnpsInVar": 4
+    },
+    {
+      "numVar": 2,
+      "numSnpsInVar": 5
+    }
+  ]
+}
