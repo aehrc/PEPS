@@ -70,14 +70,19 @@ Output files related to both config files above.
 
 To parse VCF files, PEPS uses a library called `pdbio`. This library is slow and only works for a tiny vcf file. **We strongly recommend to prepare input data in CSV format.** To do so you can use the [VCF_2_CSV.sh](VCF_2_CSV.sh) script.
 
-## How to Run PEPS3
+## How to Run PEPS
 
-Use the PEPS3 Jupyter Notebook [PEPS3.ipynb](PEPS.ipynb). We strongly recommend to keep eye on all the charts and intermediate data plotted in the notebook. The path to the config file is set in the first cell of the notebook.
+You may pass the config file as an argument to [PEPS.py](PEPS.py) like below or use the PEPS Jupyter Notebook [PEPS.ipynb](PEPS.ipynb). Since the program is in the early stage of development, we strongly recommend to use the Jupyter Notebook and keep eye on all the charts and intermediate data plotted in the notebook. The path to the config file is set in the first cell of the notebook.
 
+```sh
+$ python3 PEPS.py SampleData/config-large.json
+```
 
-# PEPS3
+# PEPS2
 
-[PEPS3.ipynb](PEPS3.ipynb) uses a probabilistic model to calculate a genotype
+[PEPS2.ipynb](PEPS2.ipynb) uses a different method to simulate phenotype.
+Instead of assigning a random phenotype and computing risk genotypes based on
+that random phenotype, PEPS2 uses a probabilistic model to calculate a genotype
 for a set of variables within a population.
 
 Let the desired frequency of cases be _Q_ and, similarly, the
@@ -115,7 +120,7 @@ probability of a sample with that value being in the control group is reduced.
 
 The probability that a sample _s_ is in the control group is then
 
-_Q<sub>s</sub>_ = (1-*p<sub>s1</sub>)(1-*p<sub>s2</sub>) ... (1-_p_<sub>_sg_</sub>)
+_Q<sub>s</sub>_ = (1-*p<sub>s*1</sub>)(1-*p<sub>s*2</sub>) ... (1-_p_<sub>_sg_</sub>)
 
 where _p_<sub>_sk_</sub> is the _p_ associated with the value that sample _s_ has for variable _k_.
 
@@ -124,15 +129,19 @@ interests of minimising noise and maximising the importance of each variable,
 the samples are sorted by increasing _Q<sub>s</sub>_ and the first _P_ fraction
 are selected as cases.
 
-PEPS3 uses the "seed" parameter in the config file to ensure that a phenotype can be
+PEPS2 uses the "seed" parameter in the config file to ensure that a phenotype can be
 reproduced. If the "shuffleSnps" parameter is true the seed is ignored and the
 phenotype will be random.
 
 PEPS2 does not require "numLoop" and "pvalueThr" parameter in the config file.
 
-An example config file: [config-peps3.json](SampleData/config-peps3.json)
+An example config file: [config-peps2.json](SampleData/config-peps2.json)
 
-An example processed notebook: [PEPS3.html](HTML_Notebook/PEPS3.html)
+An example processed notebook: [PEPS2.html](HTML_Notebook/PEPS2.html)
 
-It also considers the SNPs included in Epistasis interactions also appear indivudually as well.
+PEPS2 is available in notebook format only.
+
+# PEPS3
+
+PEPS3 is as same as PEPS2 but SNPs included in Epistasis interactions also appear indivudually as well.
 For exampel if O3V5 made of 3 SNP (rs123, rs456, rs789) then each of this SNPs will form a Variable (O3V5S1, O3V5S2, O3V5S3) and independantly affect the phenotype
