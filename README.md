@@ -135,4 +135,4 @@ An example config file: [config-peps3.json](SampleData/config-peps3.json)
 An example processed notebook: [PEPS3.html](HTML_Notebook/PEPS3.html)
 
 It also considers the SNPs included in Epistasis interactions also appear indivudually as well.
-For exampel if O3V5 made of 3 SNP (rs123, rs456, rs789) then each of this SNPs will form a Variable (O3V5S1, O3V5S2, O3V5S3) and independantly affect the phenotype
+For exampel if O3V5 made of 3 SNP (rs123, rs456, rs789) then each of these SNPs will form a Variable (O3V5S1, O3V5S2, O3V5S3) and independantly affect the phenotype
