@@ -5,7 +5,6 @@
   "shuffleSnps": true,
   "outputPrefix": "SampleData/output-peps3",
   "inputPrefix": "SampleData/input-large",
-  "numTree": 500,
   "variables": [
     {
       "numVar": 10,
