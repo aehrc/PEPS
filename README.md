@@ -1,5 +1,3 @@
-## For PEPS2 see below
-
 # PEPS: Polygenic Epistatic Phenotype Simulation
 
 **Based on real genotype data.**
@@ -127,8 +125,6 @@ are selected as cases.
 PEPS3 uses the "seed" parameter in the config file to ensure that a phenotype can be
 reproduced. If the "shuffleSnps" parameter is true the seed is ignored and the
 phenotype will be random.
-
-PEPS2 does not require "numLoop" and "pvalueThr" parameter in the config file.
 
 An example config file: [config-peps3.json](SampleData/config-peps3.json)
 
