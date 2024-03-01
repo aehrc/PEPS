@@ -132,3 +132,8 @@ An example processed notebook: [PEPS3.html](HTML_Notebook/PEPS3.html)
 
 It also considers the SNPs included in Epistasis interactions also appear indivudually as well.
 For exampel if O3V5 made of 3 SNP (rs123, rs456, rs789) then each of these SNPs will form a Variable (O3V5S1, O3V5S2, O3V5S3) and independantly affect the phenotype
+
+
+## The paper
+Reguant, R., O’Brien, M. J., Bayat, A., Hosking, B., Jain, Y., Twine, N. A., & Bauer, D. C. (2024). PEPS: Polygenic Epistatic Phenotype Simulation. In MEDINFO 2023—The Future Is Accessible (pp. 810-814). IOS Press.
+Link: https://ebooks.iospress.nl/doi/10.3233/SHTI231077
